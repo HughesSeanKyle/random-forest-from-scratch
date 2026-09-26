@@ -71,8 +71,11 @@ def should_stop(labels, depth, max_depth, min_samples_split):
         return True
     return False
 
-# Step 6 - leaf_prediction (not yet solved)
-# TODO: implement
+# Step 6 - leaf_prediction
+def leaf_prediction(labels):
+    if len(labels) == 0:
+        return 0
+    return int(np.bincount(labels).argmax())
 
 # Step 7 - build_tree (not yet solved)
 # TODO: implement
