@@ -169,8 +169,48 @@ def feature_subset(num_features, num_to_pick, rng):
     # Use the Generator object to sample unique indices without replacement
     return rng.choice(num_features, size=num_to_pick, replace=False)
 
-# Step 12 - train_forest (not yet solved)
-# TODO: implement
+# Step 12 - train_forest
+import numpy as np
+
+def train_forest(features, labels, num_trees=10, max_depth=10, min_samples_split=2, num_features_per_split=None, random_state=0):
+    forest = []
+    n_samples, n_features = features.shape
+    
+    # Handle the adaptive baseline rule for feature calculation
+    if num_features_per_split is None:
+        num_to_pick = int(np.floor(np.sqrt(n_features)))
+        num_to_pick = max(1, num_to_pick)  # Enforce a floor value of 1
+    else:
+        num_to_pick = num_features_per_split
+
+    for i in range(num_trees):
+        # Create a unique, deterministic seed value for each tree branch
+        tree_seed = random_state + i
+        rng = np.random.default_rng(tree_seed)
+        
+        # 1. Generate the bootstrap row sample (Pass tree_seed directly)
+        features_b, labels_b = bootstrap_sample(features, labels, rng)
+        
+        # 2. Isolate the column indices subset allowed for this entire tree run
+        chosen_cols = feature_subset(n_features, num_to_pick, rng)
+        
+        # 3. Fit the tree using the established feature list slice boundary
+        custom_tree = build_tree(
+            features=features_b, 
+            labels=labels_b, 
+            max_depth=max_depth, 
+            min_samples_split=min_samples_split, 
+            feature_subset=chosen_cols, 
+            depth=0
+        )
+        
+        # 4. Pack the structural details exactly matching the target schema
+        forest.append({
+            'tree': custom_tree,
+            'feature_indices': chosen_cols
+        })
+        
+    return forest
 
 # Step 13 - combine_predictions (not yet solved)
 # TODO: implement
