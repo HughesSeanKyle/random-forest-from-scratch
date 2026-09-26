@@ -158,8 +158,16 @@ def bootstrap_sample(features, labels, rng):
 
     return features[indices], labels[indices]
 
-# Step 11 - feature_subset (not yet solved)
-# TODO: implement
+# Step 11 - feature_subset
+import numpy as np
+
+def feature_subset(num_features, num_to_pick, rng):
+    """
+    Return num_to_pick distinct random feature indices from range(num_features) using rng.
+    Returns a 1-D np.ndarray of shape (num_to_pick,) with no duplicates.
+    """
+    # Use the Generator object to sample unique indices without replacement
+    return rng.choice(num_features, size=num_to_pick, replace=False)
 
 # Step 12 - train_forest (not yet solved)
 # TODO: implement
