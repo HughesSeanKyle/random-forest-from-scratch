@@ -212,8 +212,17 @@ def train_forest(features, labels, num_trees=10, max_depth=10, min_samples_split
         
     return forest
 
-# Step 13 - combine_predictions (not yet solved)
-# TODO: implement
+# Step 13 - combine_predictions
+def combine_predictions(tree_predictions):
+    n_samples = tree_predictions.shape[1]
+    combined = []
+    
+    for col in range(n_samples):
+        column_votes = tree_predictions[:, col]
+        # Find the most frequent integer label in the column vector
+        combined.append(np.bincount(column_votes).argmax())
+        
+    return np.array(combined)
 
 # Step 14 - predict_forest (not yet solved)
 # TODO: implement
