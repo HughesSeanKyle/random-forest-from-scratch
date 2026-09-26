@@ -224,8 +224,11 @@ def combine_predictions(tree_predictions):
         
     return np.array(combined)
 
-# Step 14 - predict_forest (not yet solved)
-# TODO: implement
+# Step 14 - predict_forest
+def predict_forest(forest, features):
+    # Extract the internal tree configuration from each dict item using the 'tree' key string
+    preds = np.array([predict_tree(tree_info['tree'], features) for tree_info in forest])
+    return combine_predictions(preds)
 
 # Step 15 - accuracy (not yet solved)
 # TODO: implement
