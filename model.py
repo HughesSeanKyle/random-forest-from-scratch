@@ -230,6 +230,7 @@ def predict_forest(forest, features):
     preds = np.array([predict_tree(tree_info['tree'], features) for tree_info in forest])
     return combine_predictions(preds)
 
-# Step 15 - accuracy (not yet solved)
-# TODO: implement
+# Step 15 - accuracy
+def accuracy(predictions, labels):
+    return float(np.mean(predictions == labels))
 
