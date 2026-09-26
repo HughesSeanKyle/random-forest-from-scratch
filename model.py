@@ -149,8 +149,14 @@ def predict_tree(tree, features):
     """
     return np.array([predict_example_tree(tree, x) for x in features])
 
-# Step 10 - bootstrap_sample (not yet solved)
-# TODO: implement
+# Step 10 - bootstrap_sample
+def bootstrap_sample(features, labels, rng):
+    """Draw a bootstrap sample matching the size of the input features."""
+    n_samples = features.shape[0]
+
+    indices = rng.choice(n_samples, size=n_samples, replace=True)
+
+    return features[indices], labels[indices]
 
 # Step 11 - feature_subset (not yet solved)
 # TODO: implement
